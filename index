@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>"Family Friendly" for Whom?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --purple: #3b1f6e;
+      --purple-mid: #5b3a9e;
+      --purple-light: #ede8f5;
+      --purple-faint: #f7f5fb;
+      --text: #2d2d2d;
+      --text-light: #6b7280;
+      --text-muted: #9ca3af;
+      --border: #e5e7eb;
+      --white: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      border-bottom: 1px solid #e8e8e8;
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--purple);
+    }
+
+    .nav-logo em {
+      font-style: italic;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    .nav-tabs button {
+      background: none;
+      border: none;
+      padding: 0.5rem 1.25rem;
+      font-size: 0.9rem;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #777;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-tabs button:hover {
+      color: var(--purple);
+      background: var(--purple-faint);
+    }
+
+    .nav-tabs button.active {
+      color: var(--purple);
+      background: var(--purple-light);
+      font-weight: 500;
+    }
+
+    /* ── Pages ── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── Hero: full-viewport title ── */
+    .hero-splash {
+      min-height: calc(100vh - 57px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .hero-splash .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--purple-mid);
+      background: var(--purple-light);
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-splash h1 {
+      font-family: 'Lora', Georgia, serif;
+      font-size: clamp(2.5rem, 5.5vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--purple);
+      max-width: 700px;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-splash h1 em {
+      font-style: italic;
+      color: var(--purple-mid);
+    }
+
+    .hero-splash .subtitle {
+      font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+      color: #666;
+      max-width: 560px;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      animation: float 2.5s ease-in-out infinite;
+    }
+
+    .scroll-hint svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-muted);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+
+    /* ── Body content below hero ── */
+    .about-body {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 6rem 2rem 5rem;
+    }
+
+    .about-body .description {
+      font-size: 1.05rem;
+      color: #444;
+      line-height: 1.8;
+      margin-bottom: 4rem;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    /* ── Project Cards ── */
+    .project-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+    }
+
+    .project-card:hover {
+      border-color: #c5b8df;
+      box-shadow: 0 4px 20px rgba(59,31,110,0.07);
+      transform: translateY(-2px);
+    }
+
+    .project-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--purple-mid);
+      margin-bottom: 0.75rem;
+    }
+
+    .project-card h3 {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--purple);
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+    }
+
+    .project-card p {
+      font-size: 0.88rem;
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+
+    /* ── Team Page ── */
+    .team-splash {
+      min-height: 40vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+    }
+
+    .team-splash h1 {
+      font-family: 'Lora', Georgia, serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--purple);
+      margin-bottom: 0.5rem;
+    }
+
+    .team-splash .team-intro {
+      font-size: 1rem;
+      color: var(--text-light);
+    }
+
+    .team-body {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .team-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .team-member {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.75rem 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .team-member:last-child {
+      border-bottom: none;
+    }
+
+    .avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--purple-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Lora', Georgia, serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--purple);
+      flex-shrink: 0;
+    }
+
+    .member-info h3 {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 0.1rem;
+    }
+
+    .member-info .role {
+      font-size: 0.85rem;
+      color: var(--purple-mid);
+    }
+
+    .member-info .affiliation {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 2.5rem 2rem;
+      font-size: 0.78rem;
+      color: #b0b0b0;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      nav { padding: 1rem 1.5rem; }
+      .hero-splash { min-height: 80vh; padding: 2rem 1.5rem; }
+      .about-body { padding: 4rem 1.5rem 3rem; }
+      .project-grid { grid-template-columns: 1fr; }
+      .team-splash { min-height: 30vh; }
+      .team-body { padding: 0 1.5rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-logo"><em>Family Friendly</em> for Whom?</div>
+    <div class="nav-tabs">
+      <button class="active" onclick="showPage('about', this)">About</button>
+      <button onclick="showPage('team', this)">Team</button>
+    </div>
+  </nav>
+
+  <!-- About Page -->
+  <div id="about" class="page active">
+
+    <!-- Full-screen title -->
+    <section class="hero-splash">
+      <div class="badge">Launching September 2026</div>
+      <h1>&ldquo;<em>Family Friendly</em>&rdquo;<br>for Whom?</h1>
+      <p class="subtitle">How Parenthood, Paid Leave, and Childcare Benefits Shape Educators&rsquo; Career Trajectories</p>
+      <div class="scroll-hint">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+      </div>
+    </section>
+
+    <!-- Scrolled content -->
+    <section class="about-body">
+      <p class="description">
+        Teaching is often described as a family-friendly profession, yet compared to similar fields it lacks systematic family-supportive policies. This study investigates how variation in family-friendly policies&mdash;including paid parental leave, childcare supports, and flexible work arrangements&mdash;affects educator career outcomes such as turnover, absenteeism, and promotion.
+      </p>
+
+      <div class="section-label">Research Projects</div>
+      <div class="project-grid">
+        <div class="project-card">
+          <div class="project-label">Part I</div>
+          <h3>Family-Friendly District Database</h3>
+          <p>A first-of-its-kind national database documenting the prevalence and features of family-friendly policies across a stratified sample of U.S. school districts, covering parental leave, childcare supports, group benefits, and flexible work.</p>
+        </div>
+        <div class="project-card">
+          <div class="project-label">Part II</div>
+          <h3>North Carolina Longitudinal Case Study</h3>
+          <p>A state-level longitudinal study linking administrative education data with vital records to examine how childbirth affects educators&rsquo; career trajectories and how family-friendly policies moderate these outcomes.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Team Page -->
+  <div id="team" class="page">
+    <section class="team-splash">
+      <h1>Team</h1>
+      <p class="team-intro">The researchers behind this study.</p>
+    </section>
+
+    <section class="team-body">
+      <div class="team-list">
+        <div class="team-member">
+          <div class="avatar">LR</div>
+          <div class="member-info">
+            <h3>Laura Rogers</h3>
+            <div class="role">Principal Investigator</div>
+            <div class="affiliation">University of Virginia</div>
+          </div>
+        </div>
+        <div class="team-member">
+          <div class="avatar">AM</div>
+          <div class="member-info">
+            <h3>Anna Moyer</h3>
+            <div class="role">Co-Principal Investigator</div>
+            <div class="affiliation">University of Alabama</div>
+          </div>
+        </div>
+        <div class="team-member">
+          <div class="avatar">DW</div>
+          <div class="member-info">
+            <h3>David S. Woo</h3>
+            <div class="role">Co-Principal Investigator</div>
+            <div class="affiliation">University of Utah</div>
+          </div>
+        </div>
+        <div class="team-member">
+          <div class="avatar">YN</div>
+          <div class="member-info">
+            <h3>Yongmei Ni</h3>
+            <div class="role">Co-Investigator</div>
+            <div class="affiliation">University of Utah</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2026 &ldquo;Family Friendly&rdquo; for Whom? Research Project
+  </footer>
+
+  <script>
+    function showPage(pageId, btn) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+      btn.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+</html>
